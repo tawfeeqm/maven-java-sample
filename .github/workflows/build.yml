@@ -56,4 +56,4 @@ jobs:
         run: |
           echo "$EC2_SSH_KEY" > /tmp/ec2_ssh_key.pem
           chmod 600 /tmp/ec2_ssh_key.pem
-          scp -i /tmp/ec2_ssh_key.pem target/* $EC2_USER@$EC2_HOST:/home/ubuntu
+          scp -r -i /tmp/ec2_ssh_key.pem target/* $EC2_USER@$EC2_HOST:/home/ubuntu
