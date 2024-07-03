@@ -45,6 +45,7 @@ jobs:
 
       - name: Add EC2 to known hosts
         run: |
+          mkdir -p ~/.ssh
           ssh-keyscan ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Copy artifact
