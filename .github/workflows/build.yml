@@ -59,6 +59,10 @@ jobs:
           scp -r -i /tmp/ec2_ssh_key.pem target/* $EC2_USER@$EC2_HOST:/home/ubuntu
 
       - name: Deploy application
+        env:
+          EC2_HOST: ${{secrets.EC2_HOST}}
+          EC2_USER: ${{secrets.EC2_USER}}
+          EC2_SSH_KEY: ${{secrets.EC2_SSH_KEY}}
         run: |
           ssh -i /tmp/ec2_ssh_key.pem $EC2_USER@$EC2_HOST
           java -jar spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar
