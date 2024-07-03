@@ -33,3 +33,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ci-java -Dsonar.projectName='ci-java'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build artifact
+          path: target/
