@@ -20,24 +20,33 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Run analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ci-java -Dsonar.projectName='ci-java'
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: build artifact
           path: target/
+
+      - name: Add EC2 to known hosts
+        run: |
+          ssh-keyscan ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
       - name: Copy artifact
         env:
           EC2_HOST: ${{secrets.EC2_HOST}}
